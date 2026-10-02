@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Bangladesh | Dhaka & Sylhet City Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bdGreen: {
+                            DEFAULT: '#006A4E',
+                            dark: '#004D39',
+                            light: '#0A8A67',
+                            soft: '#E8F5E9'
+                        },
+                        bdRed: {
+                            DEFAULT: '#F42A41',
+                            dark: '#C81E32',
+                            gold: '#FF9F1C'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        bangla: ['"Hind Siliguri"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-bg {
+            background: linear-gradient(rgba(0, 77, 57, 0.75), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #006A4E;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased selection:bg-bdGreen selection:text-white">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-full bg-bdGreen flex items-center justify-center text-white shadow-lg shadow-bdGreen/30 group-hover:scale-105 transition-transform">
+                        <span class="font-bangla font-bold text-xl">অ</span>
+                    </div>
+                    <div>
+                        <span class="text-xl font-black tracking-tight text-slate-900 block leading-tight">AMAR <span class="text-bdGreen">DESH</span></span>
+                        <span class="text-xs font-bangla font-medium text-slate-500 tracking-wider">সোনার বাংলা • Explore Bangladesh</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center gap-8 font-semibold text-slate-600 text-sm">
+                    <a href="#cities" class="hover:text-bdGreen transition-colors py-2 border-b-2 border-transparent hover:border-bdGreen">Cities</a>
+                    <a href="#attractions" class="hover:text-bdGreen transition-colors py-2 border-b-2 border-transparent hover:border-bdGreen">Landmarks</a>
+                    <a href="#cuisine" class="hover:text-bdGreen transition-colors py-2 border-b-2 border-transparent hover:border-bdGreen">Cuisine</a>
+                    <a href="#weather" class="hover:text-bdGreen transition-colors py-2 border-b-2 border-transparent hover:border-bdGreen">Weather</a>
+                    <a href="#tours" class="hover:text-bdGreen transition-colors py-2 border-b-2 border-transparent hover:border-bdGreen">Tours</a>
+                </div>
+
+                <!-- Action Button & Language Switcher -->
+                <div class="hidden md:flex items-center gap-4">
+                    <button id="langToggleBtn" onclick="toggleLanguage()" class="px-3 py-1.5 rounded-full border border-slate-200 text-xs font-semibold hover:bg-slate-100 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-globe text-bdGreen"></i>
+                        <span id="langText">বাংলা</span>
+                    </button>
+                    <button onclick="openBookingModal('General')" class="bg-bdGreen hover:bg-bdGreen-dark text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-bdGreen/20 hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                        Book Experience
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl" id="menuIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3">
+            <a href="#cities" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-bdGreen">Cities</a>
+            <a href="#attractions" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-bdGreen">Landmarks</a>
+            <a href="#cuisine" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-bdGreen">Cuisine</a>
+            <a href="#weather" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-bdGreen">Weather</a>
+            <a href="#tours" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-bdGreen">Tours</a>
+            <div class="pt-4 border-t border-slate-100 flex flex-col gap-3">
+                <button onclick="toggleLanguage(); toggleMobileMenu();" class="w-full py-2 border border-slate-200 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-globe text-bdGreen"></i>
+                    <span id="langTextMobile">English / বাংলা</span>
+                </button>
+                <button onclick="openBookingModal('General'); toggleMobileMenu();" class="w-full bg-bdGreen text-white py-2.5 rounded-xl text-sm font-semibold shadow-md">
+                    Book Experience
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative hero-bg text-white py-28 lg:py-36 px-4 overflow-hidden">
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs sm:text-sm font-medium mb-6 animate-pulse">
+                <span class="w-2 h-2 rounded-full bg-bdRed"></span>
+                <span id="heroBadge">Discover the Vibrant Soul of Bangladesh</span>
+            </div>
+            
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-4xl mx-auto leading-tight mb-6">
+                <span id="heroTitle1">Explore the Heart of</span> 
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">Bengal</span>
+            </h1>
+            
+            <p id="heroSubtitle" class="text-slate-200 text-base sm:text-xl max-w-2xl mx-auto font-normal leading-relaxed mb-10">
+                From the historic bustling streets of Old Dhaka to the lush green tea gardens of Sylhet. Uncover heritage, nature, and unmatched hospitality.
+            </p>
+
+            <!-- Search Bar Card -->
+            <div class="max-w-3xl mx-auto glass-card p-3 sm:p-4 rounded-2xl shadow-2xl text-slate-800">
+                <form onsubmit="handleSearch(event)" class="flex flex-col md:flex-row gap-3">
+                    <div class="flex-1 flex items-center gap-3 px-4 py-3 bg-slate-100/80 rounded-xl border border-slate-200 focus-within:ring-2 focus-within:ring-bdGreen">
+                        <i class="fa-solid fa-location-dot text-bdGreen text-lg"></i>
+                        <input type="text" id="searchInput" placeholder="Where do you want to explore? (e.g. Dhaka, Lalbagh, Sylhet)" class="w-full bg-transparent border-none focus:outline-none text-slate-800 text-sm sm:text-base placeholder-slate-400">
+                    </div>
+                    <div class="flex items-center gap-3 px-4 py-3 bg-slate-100/80 rounded-xl border border-slate-200">
+                        <i class="fa-solid fa-compass text-bdRed-gold text-lg"></i>
+                        <select id="categorySelect" class="bg-transparent border-none focus:outline-none text-slate-700 text-sm font-medium pr-4">
+                            <option value="all">All Experiences</option>
+                            <option value="history">Historical Landmarks</option>
+                            <option value="nature">Nature & Eco-Tour</option>
+                            <option value="food">Local Cuisine</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="bg-bdGreen hover:bg-bdGreen-dark text-white font-semibold px-6 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>Search</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
+                <div class="glass-dark p-4 rounded-xl text-center">
+                    <div class="text-2xl font-bold text-amber-400">400+</div>
+                    <div class="text-xs text-slate-300">Years of History</div>
+                </div>
+                <div class="glass-dark p-4 rounded-xl text-center">
+                    <div class="text-2xl font-bold text-emerald-400">150+</div>
+                    <div class="text-xs text-slate-300">Tea Estates</div>
+                </div>
+                <div class="glass-dark p-4 rounded-xl text-center">
+                    <div class="text-2xl font-bold text-amber-400">100%</div>
+                    <div class="text-xs text-slate-300">Authentic Flavors</div>
+                </div>
+                <div class="glass-dark p-4 rounded-xl text-center">
+                    <div class="text-2xl font-bold text-emerald-400">24/7</div>
+                    <div class="text-xs text-slate-300">Vibrant Life</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- City Showcase Section -->
+    <section id="cities" class="py-20 px-4 max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <span class="text-bdGreen font-semibold text-sm tracking-wider uppercase bg-bdGreen/10 px-3 py-1 rounded-full">Explore By Destination</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-2">Popular Cities in Bangladesh</h2>
+            <p class="text-slate-600 mt-2 max-w-xl mx-auto">Select a city to filter destinations and discover its unique culture, heritage, and vibe.</p>
+
+            <!-- Tabs -->
+            <div class="flex justify-center gap-3 mt-8 flex-wrap">
+                <button onclick="filterCity('all')" id="tab-all" class="city-tab px-6 py-2.5 rounded-full font-semibold text-sm transition-all bg-bdGreen text-white shadow-md">
+                    All Cities
+                </button>
+                <button onclick="filterCity('dhaka')" id="tab-dhaka" class="city-tab px-6 py-2.5 rounded-full font-semibold text-sm transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                    <i class="fa-solid fa-city mr-1 text-bdGreen"></i> Dhaka (ঢাকা)
+                </button>
+                <button onclick="filterCity('sylhet')" id="tab-sylhet" class="city-tab px-6 py-2.5 rounded-full font-semibold text-sm transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                    <i class="fa-solid fa-leaf mr-1 text-emerald-600"></i> Sylhet (সিলেট)
+                </button>
+                <button onclick="filterCity('coxsbazar')" id="tab-coxsbazar" class="city-tab px-6 py-2.5 rounded-full font-semibold text-sm transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                    <i class="fa-solid fa-water mr-1 text-blue-500"></i> Cox's Bazar (কক্সবাজার)
+                </button>
+            </div>
+        </div>
+
+        <!-- Attraction Cards Grid -->
+        <div id="attractionsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Cards generated dynamically via JavaScript -->
+        </div>
+    </section>
+
+    <!-- Live Weather & Travel Info Section -->
+    <section id="weather" class="py-16 bg-gradient-to-br from-bdGreen-dark via-bdGreen to-slate-900 text-white my-10 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-amber-300 font-semibold text-sm tracking-wider uppercase">Live Travel Companion</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold mt-2 mb-4">Current Weather & Conditions</h2>
+                    <p class="text-slate-200 leading-relaxed mb-6">
+                        Plan your trip smoothly with real-time conditions. Winter (Nov-Feb) is ideal for visiting historical sites in Dhaka and tea plantations in Sylhet!
+                    </p>
+                    
+                    <div class="flex gap-4 mb-6">
+                        <button onclick="updateWeather('Dhaka')" id="wBtnDhaka" class="weather-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white/20 hover:bg-white/30 backdrop-blur border border-white/30 transition-all">Dhaka</button>
+                        <button onclick="updateWeather('Sylhet')" id="wBtnSylhet" class="weather-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/30 backdrop-blur border border-white/20 transition-all">Sylhet</button>
+                        <button onclick="updateWeather('Coxsbazar')" id="wBtnCox" class="weather-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/30 backdrop-blur border border-white/20 transition-all">Cox's Bazar</button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/10">
+                            <i class="fa-solid fa-umbrella text-amber-300 text-2xl mb-2"></i>
+                            <div class="text-xs text-slate-300">Best Season</div>
+                            <div class="font-semibold text-sm text-white">Nov - March (Dry & Cool)</div>
+                        </div>
+                        <div class="p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/10">
+                            <i class="fa-solid fa-bus text-teal-300 text-2xl mb-2"></i>
+                            <div class="text-xs text-slate-300">Local Transit</div>
+                            <div class="font-semibold text-sm text-white">Rickshaw, Metro Rail, Uber</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Display Card -->
+                <div class="glass-dark p-8 rounded-3xl border border-white/20 shadow-2xl relative">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 id="wCityName" class="text-3xl font-bold text-white">Dhaka</h3>
+                            <p id="wDesc" class="text-slate-300 text-sm">Sunny & Pleasant</p>
+                        </div>
+                        <span id="wIcon" class="text-5xl text-amber-400">
+                            <i class="fa-solid fa-sun animate-spin-slow"></i>
+                        </span>
+                    </div>
+
+                    <div class="my-8 flex items-baseline gap-3">
+                        <span id="wTemp" class="text-6xl font-extrabold text-white">28°</span>
+                        <span class="text-2xl text-slate-300">C</span>
+                        <span id="wFeels" class="text-xs text-slate-400 ml-auto">Feels like 29°C</span>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/10 text-center">
+                        <div>
+                            <span class="text-xs text-slate-400 block">Humidity</span>
+                            <span id="wHumidity" class="font-semibold text-white">62%</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">Wind Speed</span>
+                            <span id="wWind" class="font-semibold text-white">12 km/h</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">Air Quality</span>
+                            <span id="wAqi" class="font-semibold text-emerald-400">Moderate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authentic Bangladeshi Food Section -->
+    <section id="cuisine" class="py-20 px-4 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+                <span class="text-bdRed font-semibold text-sm tracking-wider uppercase bg-bdRed/10 px-3 py-1 rounded-full">Taste of Bengal</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-2">Famous Local Culinary Delights</h2>
+                <p class="text-slate-600 mt-2 max-w-xl">Rich spices, fragrant rice dishes, and mouth-watering desserts you must try!</p>
+            </div>
+            <a href="#tours" class="mt-4 md:mt-0 text-bdGreen font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                <span>Book a Food Walk</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Food Item 1 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=600&q=80" alt="Dhakaiya Biryani" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <span class="absolute top-3 left-3 bg-bdRed text-white text-xs font-bold px-2.5 py-1 rounded-full">Dhaka Special</span>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-bold text-lg text-slate-900 group-hover:text-bdGreen transition-colors">Old Dhaka Kacchi Biryani</h3>
+                    <p class="text-slate-500 text-xs mt-1">Tender marinated mutton layered with aromatic basmati rice and potatoes cooked slow in sealed clay pots.</p>
+                    <div class="mt-4 flex items-center justify-between text-xs text-slate-500">
+                        <span><i class="fa-solid fa-fire text-amber-500 mr-1"></i> Spicy & Aromatic</span>
+                        <span class="font-bold text-bdGreen text-sm">৳ 250 - 400</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Item 2 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80" alt="Sylheti Seven Layer Tea" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <span class="absolute top-3 left-3 bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">Sylhet Special</span>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-bold text-lg text-slate-900 group-hover:text-bdGreen transition-colors">Seven Layer Tea (সাত রঙের চা)</h3>
+                    <p class="text-slate-500 text-xs mt-1">Famous Sreemangal tea crafted with seven distinct layers of varied tea blends and flavors in a single glass.</p>
+                    <div class="mt-4 flex items-center justify-between text-xs text-slate-500">
+                        <span><i class="fa-solid fa-mug-hot text-amber-600 mr-1"></i> Sweet & Citrusy</span>
+                        <span class="font-bold text-bdGreen text-sm">৳ 90 - 150</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Item 3 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80" alt="Hilsa Fish Fry" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <span class="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">National Dish</span>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-bold text-lg text-slate-900 group-hover:text-bdGreen transition-colors">Ilish (Hilsa) Fish Curry</h3>
+                    <p class="text-slate-500 text-xs mt-1">National fish of Bangladesh prepared with mustard sauce, green chilies, and served hot with steamed rice.</p>
+                    <div class="mt-4 flex items-center justify-between text-xs text-slate-500">
+                        <span><i class="fa-solid fa-utensils text-slate-400 mr-1"></i> Must Try</span>
+                        <span class="font-bold text-bdGreen text-sm">৳ 350 - 600</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Item 4 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80" alt="Bangladeshi Sweets" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <span class="absolute top-3 left-3 bg-purple-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">Traditional Sweet</span>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-bold text-lg text-slate-900 group-hover:text-bdGreen transition-colors">Mishti Doi & Rasgulla</h3>
+                    <p class="text-slate-500 text-xs mt-1">Traditional sweetened fermented yogurt served in earthen pots paired with soft cottage cheese balls in syrup.</p>
+                    <div class="mt-4 flex items-center justify-between text-xs text-slate-500">
+                        <span><i class="fa-solid fa-cookie text-amber-500 mr-1"></i> Sweet Dessert</span>
+                        <span class="font-bold text-bdGreen text-sm">৳ 120 - 250</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tour Booking Section -->
+    <section id="tours" class="py-20 bg-slate-100 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-bdGreen font-semibold text-sm tracking-wider uppercase bg-bdGreen/10 px-3 py-1 rounded-full">Guided Experiences</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-2">Curated City Tour Packages</h2>
+                <p class="text-slate-600 mt-2 max-w-xl mx-auto">Experience the best with verified local guides, comfortable transport, and authentic local meals.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Tour 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-200 flex flex-col justify-between hover:border-bdGreen transition-all">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-3 py-1 bg-bdGreen/10 text-bdGreen text-xs font-bold rounded-full">Full Day Tour</span>
+                            <span class="text-xs font-semibold text-slate-400"><i class="fa-solid fa-clock mr-1"></i> 8 Hours</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Old Dhaka Heritage Walk</h3>
+                        <p class="text-slate-500 text-sm mb-4">Explore Lalbagh Fort, Ahsan Manzil, Shankhari Bazar, and enjoy a traditional boat ride on the Buriganga river.</p>
+                        <ul class="space-y-2 text-xs text-slate-600 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-bdGreen"></i> Expert Local Historian Guide</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-bdGreen"></i> Famous Kacchi Biryani Lunch</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-bdGreen"></i> All Monument Entry Tickets Included</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="flex items-baseline justify-between mb-4 pt-4 border-t border-slate-100">
+                            <span class="text-xs text-slate-400">Price per person</span>
+                            <span class="text-2xl font-black text-bdGreen">৳ 2,500</span>
+                        </div>
+                        <button onclick="openBookingModal('Old Dhaka Heritage Walk')" class="w-full bg-bdGreen hover:bg-bdGreen-dark text-white py-3 rounded-xl font-bold text-sm shadow-md transition-all">
+                            Book This Tour
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tour 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-bdGreen relative flex flex-col justify-between hover:scale-105 transition-all">
+                    <div class="absolute -top-3 right-6 bg-bdRed text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                        Most Popular
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">2 Days / 1 Night</span>
+                            <span class="text-xs font-semibold text-slate-400"><i class="fa-solid fa-clock mr-1"></i> Weekend Getaway</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Sylhet Tea & Swamp Forest Eco Escape</h3>
+                        <p class="text-slate-500 text-sm mb-4">Visit Ratargul Freshwater Swamp Forest, Jaflong stone collection rivers, and lush Sreemangal tea estates.</p>
+                        <ul class="space-y-2 text-xs text-slate-600 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-bdGreen"></i> AC Transport & Resort Stay</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-bdGreen"></i> Boat rides in Ratargul & Jaflong</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-bdGreen"></i> 7-Layer Tea Tasting session</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="flex items-baseline justify-between mb-4 pt-4 border-t border-slate-100">
+                            <span class="text-xs text-slate-400">Price per person</span>
+                            <span class="text-2xl font-black text-bdGreen">৳ 6,800</span>
+                        </div>
+                        <button onclick="openBookingModal('Sylhet Eco Escape')" class="w-full bg-bdGreen hover:bg-bdGreen-dark text-white py-3 rounded-xl font-bold text-sm shadow-md transition-all">
+                            Book This Tour
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tour 3 -->
+                <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-200 flex flex-col justify-between hover:border-bdGreen transition-all">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-full">Full Day Expedition</span>
+                            <span class="text-xs font-semibold text-slate-400"><i class="fa-solid fa-clock mr-1"></i> 10 Hours</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Cox's Bazar Marine Drive Adventure</h3>
+                        <p class="text-slate-500 text-sm mb-4">Drive along the world's longest natural sea beach, visit Himchari waterfalls, and Inani Coral Beach.</p>
+                        <ul class="space-y-2 text-xs text-slate-600 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-bdGreen"></i> Open Jeep Beach Ride</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-bdGreen"></i> Fresh Seafood Lunch</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-bdGreen"></i> Sunset viewpoint photography</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="flex items-baseline justify-between mb-4 pt-4 border-t border-slate-100">
+                            <span class="text-xs text-slate-400">Price per person</span>
+                            <span class="text-2xl font-black text-bdGreen">৳ 3,200</span>
+                        </div>
+                        <button onclick="openBookingModal('Coxs Bazar Marine Drive')" class="w-full bg-bdGreen hover:bg-bdGreen-dark text-white py-3 rounded-xl font-bold text-sm shadow-md transition-all">
+                            Book This Tour
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-16 px-4 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div>
+                <a href="#" class="flex items-center gap-2 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-bdGreen flex items-center justify-center text-white font-bangla font-bold">
+                        অ
+                    </div>
+                    <span class="text-xl font-bold text-white">AMAR DESH</span>
+                </a>
+                <p class="text-xs leading-relaxed">
+                    Promoting the rich culture, natural beauty, and historic heritage of Bangladesh cities to travelers worldwide.
+                </p>
+                <div class="flex gap-4 mt-6">
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-bdGreen text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-bdGreen text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram text-xs"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-bdGreen text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-youtube text-xs"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4 text-sm">Popular Destinations</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" class="hover:text-white transition-colors">Old Dhaka Lalbagh Fort</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Sylhet Ratargul Swamp Forest</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Sreemangal Tea Gardens</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Cox's Bazar Sea Beach</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Sadarghat River Port</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4 text-sm">Quick Links</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#cities" class="hover:text-white transition-colors">Explore Cities</a></li>
+                    <li><a href="#cuisine" class="hover:text-white transition-colors">Authentic Food Guide</a></li>
+                    <li><a href="#weather" class="hover:text-white transition-colors">Weather Forecast</a></li>
+                    <li><a href="#tours" class="hover:text-white transition-colors">Book Guided Tour</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Travel Advisory & Visas</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4 text-sm">Newsletter</h4>
+                <p class="text-xs mb-3">Get monthly Bangladesh travel tips, hidden gems, and deal updates.</p>
+                <form onsubmit="handleSubscribe(event)" class="space-y-2">
+                    <input type="email" required placeholder="Enter your email" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-bdGreen">
+                    <button type="submit" class="w-full bg-bdGreen hover:bg-bdGreen-dark text-white text-xs font-bold py-2 rounded-lg transition-colors">
+                        Subscribe Now
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto mt-12 pt-6 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500">
+            <p>&copy; 2026 Amar Desh Travel Portal. Built with Bangladesh pride.</p>
+            <div class="flex gap-4 mt-2 sm:mt-0">
+                <a href="#" class="hover:text-slate-400">Privacy Policy</a>
+                <a href="#" class="hover:text-slate-400">Terms of Service</a>
+                <a href="#" class="hover:text-slate-400">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative animate-fade-in">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <h3 class="text-xl font-bold text-slate-900 mb-1">Book Your Experience</h3>
+            <p id="modalTourName" class="text-xs text-bdGreen font-semibold mb-4">Selected Package: General Tour</p>
+
+            <form onsubmit="submitBooking(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Full Name</label>
+                    <input type="text" required placeholder="e.g. Tanvir Ahmed" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-bdGreen">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Phone / WhatsApp</label>
+                        <input type="tel" required placeholder="+880 1700-000000" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-bdGreen">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Travel Date</label>
+                        <input type="date" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-bdGreen">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Number of Travelers</label>
+                    <select class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-bdGreen">
+                        <option>1 Person</option>
+                        <option>2 Persons</option>
+                        <option>3-5 Persons (Family/Group)</option>
+                        <option>6+ Persons</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Special Requests or Hotel Pickup</label>
+                    <textarea rows="2" placeholder="Mention any diet requirements or pickup location..." class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-bdGreen"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-bdGreen hover:bg-bdGreen-dark text-white font-bold py-3 rounded-xl shadow-md transition-all text-sm">
+                    Confirm Reservation Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast Box -->
+    <div id="toastBox" class="fixed bottom-5 right-5 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 transition-all duration-300 transform translate-y-20 opacity-0 z-50">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMsg" class="text-sm font-medium">Operation completed successfully!</span>
+    </div>
+
+    <script>
+        // Data for attractions across cities
+        const attractionsData = [
+            {
+                id: 1,
+                city: 'dhaka',
+                title: 'Lalbagh Fort (লালবাগ কেল্লা)',
+                tag: 'Historical Mughal Heritage',
+                rating: 4.8,
+                reviews: 1240,
+                desc: '17th-century unfinished Mughal fort complex situated on the banks of the Buriganga River in Old Dhaka.',
+                img: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=800&q=80',
+                badgeBg: 'bg-amber-100 text-amber-800'
+            },
+            {
+                id: 2,
+                city: 'sylhet',
+                title: 'Ratargul Swamp Forest (রাতারগুল)',
+                tag: 'Freshwater Eco-Forest',
+                rating: 4.9,
+                reviews: 980,
+                desc: 'Only freshwater swamp forest in Bangladesh, best explored via wooden boats through submerged trees.',
+                img: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
+                badgeBg: 'bg-emerald-100 text-emerald-800'
+            },
+            {
+                id: 3,
+                city: 'dhaka',
+                title: 'Ahsan Manzil (আহসান মঞ্জিল)',
+                tag: 'Old Dhaka Pink Palace',
+                rating: 4.7,
+                reviews: 1560,
+                desc: 'The striking pink official palace and seat of the Nawab of Dhaka, offering a window into royal Bengali history.',
+                img: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80',
+                badgeBg: 'bg-rose-100 text-rose-800'
+            },
+            {
+                id: 4,
+                city: 'sylhet',
+                title: 'Jaflong & Tea Estates (জাফলং)',
+                tag: 'Nature & River Stones',
+                rating: 4.8,
+                reviews: 890,
+                desc: 'Scenic hill station known for crystal clear streams, rolling tea hills, and Khasi tribal village culture.',
+                img: 'https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?auto=format&fit=crop&w=800&q=80',
+                badgeBg: 'bg-teal-100 text-teal-800'
+            },
+            {
+                id: 5,
+                city: 'coxsbazar',
+                title: 'Cox\'s Bazar Long Beach',
+                tag: 'World\'s Longest Sea Beach',
+                rating: 4.9,
+                reviews: 2400,
+                desc: '120 kilometers of unbroken natural sandy sea beach stretching along the Bay of Bengal with stunning sunsets.',
+                img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+                badgeBg: 'bg-blue-100 text-blue-800'
+            },
+            {
+                id: 6,
+                city: 'dhaka',
+                title: 'Jatiya Sangsad Bhaban',
+                tag: 'Modern Architectural Marvel',
+                rating: 4.8,
+                reviews: 1100,
+                desc: 'Designed by world-renowned architect Louis Kahn, one of the world\'s largest legislative complex structures.',
+                img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
+                badgeBg: 'bg-purple-100 text-purple-800'
+            }
+        ];
+
+        // Weather Data Simulation
+        const weatherData = {
+            Dhaka: { temp: '28°', feels: '29°C', desc: 'Sunny & Warm', humidity: '62%', wind: '12 km/h', aqi: 'Moderate' },
+            Sylhet: { temp: '24°', feels: '24°C', desc: 'Pleasant & Breeze', humidity: '70%', wind: '8 km/h', aqi: 'Good' },
+            Coxsbazar: { temp: '29°', feels: '31°C', desc: 'Coastal Sun', humidity: '75%', wind: '18 km/h', aqi: 'Excellent' }
+        };
+
+        // Render Attractions Function
+        function renderAttractions(items) {
+            const container = document.getElementById('attractionsGrid');
+            container.innerHTML = '';
+
+            if(items.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fa-solid fa-compass text-4xl text-slate-300 mb-3"></i>
+                        <p class="text-slate-500 font-medium">No places found matching your search. Try another city or keyword!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group';
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold ${item.badgeBg}">
+                                ${item.tag}
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-amber-500 text-xs font-bold mb-2">
+                                <i class="fa-solid fa-star"></i>
+                                <span>${item.rating}</span>
+                                <span class="text-slate-400 font-normal">(${item.reviews} reviews)</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 group-hover:text-bdGreen transition-colors">${item.title}</h3>
+                            <p class="text-slate-500 text-sm mt-2 leading-relaxed">${item.desc}</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 flex items-center justify-between">
+                        <button onclick="openBookingModal('${item.title}')" class="text-bdGreen font-bold text-sm hover:underline flex items-center gap-1">
+                            Explore Tour <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // City Filtering
+        function filterCity(cityKey) {
+            // Update active tab styles
+            document.querySelectorAll('.city-tab').forEach(btn => {
+                btn.classList.remove('bg-bdGreen', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-slate-600');
+            });
+
+            const activeBtn = document.getElementById(`tab-${cityKey}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-bdGreen', 'text-white', 'shadow-md');
+                activeBtn.classList.remove('bg-white', 'text-slate-600');
+            }
+
+            if(cityKey === 'all') {
+                renderAttractions(attractionsData);
+            } else {
+                const filtered = attractionsData.filter(item => item.city === cityKey);
+                renderAttractions(filtered);
+            }
+        }
+
+        // Handle Search
+        function handleSearch(e) {
+            e.preventDefault();
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            if(!query) {
+                renderAttractions(attractionsData);
+                return;
+            }
+
+            const results = attractionsData.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.city.toLowerCase().includes(query) ||
+                item.desc.toLowerCase().includes(query)
+            );
+            
+            renderAttractions(results);
+            document.getElementById('attractions').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Weather Switcher
+        function updateWeather(city) {
+            const data = weatherData[city];
+            if(!data) return;
+
+            document.getElementById('wCityName').innerText = city;
+            document.getElementById('wTemp').innerText = data.temp;
+            document.getElementById('wFeels').innerText = `Feels like ${data.feels}`;
+            document.getElementById('wDesc').innerText = data.desc;
+            document.getElementById('wHumidity').innerText = data.humidity;
+            document.getElementById('wWind').innerText = data.wind;
+            document.getElementById('wAqi').innerText = data.aqi;
+
+            // Highlight Weather Button
+            document.querySelectorAll('.weather-btn').forEach(btn => btn.classList.replace('bg-white/20', 'bg-white/10'));
+            if (city === 'Dhaka') document.getElementById('wBtnDhaka').classList.replace('bg-white/10', 'bg-white/20');
+            if (city === 'Sylhet') document.getElementById('wBtnSylhet').classList.replace('bg-white/10', 'bg-white/20');
+            if (city === 'Coxsbazar') document.getElementById('wBtnCox').classList.replace('bg-white/10', 'bg-white/20');
+        }
+
+        // Language Toggle Simulation
+        let currentLang = 'EN';
+        function toggleLanguage() {
+            if(currentLang === 'EN') {
+                currentLang = 'BN';
+                document.getElementById('langText').innerText = 'English';
+                document.getElementById('heroBadge').innerText = 'বাংলাদেশের সৌন্দর্য ও ঐতিহ্য আবিষ্কার করুন';
+                document.getElementById('heroTitle1').innerText = 'ঐতিহ্য ও প্রাকৃতিক সৌন্দর্যের';
+                document.getElementById('heroSubtitle').innerText = 'পুরোনো ঢাকার ঐতিহাসিক গলি থেকে সিলেটের সবুজ চা বাগান। জেনে নিন বাংলাদেশের প্রতিটি শহরের গল্প।';
+                showToast('ভাষা পরিবর্তিত হয়েছে (বাংলা)');
+            } else {
+                currentLang = 'EN';
+                document.getElementById('langText').innerText = 'বাংলা';
+                document.getElementById('heroBadge').innerText = 'Discover the Vibrant Soul of Bangladesh';
+                document.getElementById('heroTitle1').innerText = 'Explore the Heart of';
+                document.getElementById('heroSubtitle').innerText = 'From the historic bustling streets of Old Dhaka to the lush green tea gardens of Sylhet. Uncover heritage, nature, and unmatched hospitality.';
+                showToast('Switched language to English');
+            }
+        }
+
+        // Mobile Menu Drawer
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Booking Modal Management
+        function openBookingModal(tourName) {
+            document.getElementById('modalTourName').innerText = `Selected Package: ${tourName}`;
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+        }
+
+        function submitBooking(e) {
+            e.preventDefault();
+            closeBookingModal();
+            showToast('Dhaka/Sylhet Tour reservation request sent successfully!');
+        }
+
+        function handleSubscribe(e) {
+            e.preventDefault();
+            showToast('Thank you for subscribing to Amar Desh travel updates!');
+            e.target.reset();
+        }
+
+        // Toast Notification Helper
+        function showToast(message) {
+            const toast = document.getElementById('toastBox');
+            document.getElementById('toastMsg').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        // Initial Initialization
+        window.onload = function() {
+            renderAttractions(attractionsData);
+            updateWeather('Dhaka');
+        }
+    </script>
+</body>
+</html>
